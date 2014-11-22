@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  PasswordEnter.h
 //  UW_HW7_mefife
 //
 //  Created by Matthew Fife on 11/21/14.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
-
+@interface PasswordEnter : UIViewController
+//@property NSMutableArray *dataBall;
 @end
-

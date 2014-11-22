@@ -9,11 +9,13 @@
 /* Begin PBXBuildFile section */
 		C460FC2C1A2022460032CA64 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C460FC2B1A2022460032CA64 /* main.m */; };
 		C460FC2F1A2022460032CA64 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C460FC2E1A2022460032CA64 /* AppDelegate.m */; };
-		C460FC321A2022460032CA64 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C460FC311A2022460032CA64 /* ViewController.m */; };
 		C460FC351A2022460032CA64 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C460FC331A2022460032CA64 /* Main.storyboard */; };
 		C460FC371A2022460032CA64 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C460FC361A2022460032CA64 /* Images.xcassets */; };
 		C460FC3A1A2022460032CA64 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C460FC381A2022460032CA64 /* LaunchScreen.xib */; };
 		C460FC461A2022470032CA64 /* UW_HW7_mefifeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C460FC451A2022470032CA64 /* UW_HW7_mefifeTests.m */; };
+		C460FC511A20243B0032CA64 /* PasswordTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = C460FC501A20243B0032CA64 /* PasswordTableView.m */; };
+		C460FC551A2028190032CA64 /* PasswordEnter.m in Sources */ = {isa = PBXBuildFile; fileRef = C460FC531A2028190032CA64 /* PasswordEnter.m */; };
+		C460FC561A2028190032CA64 /* PasswordEnter.xib in Resources */ = {isa = PBXBuildFile; fileRef = C460FC541A2028190032CA64 /* PasswordEnter.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,14 +34,17 @@
 		C460FC2B1A2022460032CA64 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C460FC2D1A2022460032CA64 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		C460FC2E1A2022460032CA64 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		C460FC301A2022460032CA64 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		C460FC311A2022460032CA64 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		C460FC341A2022460032CA64 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C460FC361A2022460032CA64 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		C460FC391A2022460032CA64 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		C460FC3F1A2022470032CA64 /* UW_HW7_mefifeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UW_HW7_mefifeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C460FC441A2022470032CA64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C460FC451A2022470032CA64 /* UW_HW7_mefifeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UW_HW7_mefifeTests.m; sourceTree = "<group>"; };
+		C460FC4F1A20243B0032CA64 /* PasswordTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PasswordTableView.h; sourceTree = "<group>"; };
+		C460FC501A20243B0032CA64 /* PasswordTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PasswordTableView.m; sourceTree = "<group>"; };
+		C460FC521A2028190032CA64 /* PasswordEnter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PasswordEnter.h; sourceTree = "<group>"; };
+		C460FC531A2028190032CA64 /* PasswordEnter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PasswordEnter.m; sourceTree = "<group>"; };
+		C460FC541A2028190032CA64 /* PasswordEnter.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PasswordEnter.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +68,11 @@
 		C460FC1D1A2022460032CA64 = {
 			isa = PBXGroup;
 			children = (
+				C460FC4F1A20243B0032CA64 /* PasswordTableView.h */,
+				C460FC501A20243B0032CA64 /* PasswordTableView.m */,
+				C460FC521A2028190032CA64 /* PasswordEnter.h */,
+				C460FC531A2028190032CA64 /* PasswordEnter.m */,
+				C460FC541A2028190032CA64 /* PasswordEnter.xib */,
 				C460FC281A2022460032CA64 /* UW_HW7_mefife */,
 				C460FC421A2022470032CA64 /* UW_HW7_mefifeTests */,
 				C460FC271A2022460032CA64 /* Products */,
@@ -83,8 +93,6 @@
 			children = (
 				C460FC2D1A2022460032CA64 /* AppDelegate.h */,
 				C460FC2E1A2022460032CA64 /* AppDelegate.m */,
-				C460FC301A2022460032CA64 /* ViewController.h */,
-				C460FC311A2022460032CA64 /* ViewController.m */,
 				C460FC331A2022460032CA64 /* Main.storyboard */,
 				C460FC361A2022460032CA64 /* Images.xcassets */,
 				C460FC381A2022460032CA64 /* LaunchScreen.xib */,
@@ -202,6 +210,7 @@
 				C460FC351A2022460032CA64 /* Main.storyboard in Resources */,
 				C460FC3A1A2022460032CA64 /* LaunchScreen.xib in Resources */,
 				C460FC371A2022460032CA64 /* Images.xcassets in Resources */,
+				C460FC561A2028190032CA64 /* PasswordEnter.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,9 +228,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C460FC321A2022460032CA64 /* ViewController.m in Sources */,
 				C460FC2F1A2022460032CA64 /* AppDelegate.m in Sources */,
+				C460FC511A20243B0032CA64 /* PasswordTableView.m in Sources */,
 				C460FC2C1A2022460032CA64 /* main.m in Sources */,
+				C460FC551A2028190032CA64 /* PasswordEnter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
