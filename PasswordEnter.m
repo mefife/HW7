@@ -33,6 +33,33 @@
     
     
     if (self.MEFUpdating == 0) {
+        NSDictionary *testquery = @{(__bridge id)kSecClass : (__bridge id)kSecClassInternetPassword,
+                                (__bridge id)kSecMatchLimit : (__bridge id) kSecMatchLimitAll,
+                                (__bridge id)kSecReturnAttributes : (__bridge id)kCFBooleanTrue};
+        
+        CFArrayRef result = NULL;
+        SecItemCopyMatching((__bridge CFDictionaryRef) testquery, (CFTypeRef *)&result);
+        
+        NSArray * resultDatatest = (__bridge NSArray *)result;
+        
+        
+        for (int i = 0; i < resultDatatest.count; i++) {
+            NSLog(@"%@",[resultDatatest[i] valueForKey:@"srvr"]);
+            NSMutableString * test =[resultDatatest[i] valueForKey:@"srvr"];
+            if ([test isEqualToString: self.keyChainHost.text]) {
+                
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                message:@"That host name already exists, please try again."
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+                [alert show];
+                return;
+            }
+            
+        }
+        
+        
         NSDictionary *attributes = @{ (__bridge id)kSecClass : (__bridge id)kSecClassInternetPassword,
                                       (__bridge id)kSecAttrAccount : self.keychainUser.text,
                                       (__bridge id)kSecAttrServer : self.keyChainHost.text,
@@ -44,6 +71,8 @@
             [self dismissViewControllerAnimated:YES completion:nil];
             
         }
+        
+        
     }
     
     if (self.MEFUpdating == 1) {
