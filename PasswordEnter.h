@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface PasswordEnter : UIViewController
-//@property NSMutableArray *dataBall;
+@property (weak, nonatomic) IBOutlet UITextField *keyChainHost;
+@property (weak, nonatomic) IBOutlet UITextField *keychainUser;
+@property (weak, nonatomic) IBOutlet UITextField *keychainPassword;
+@property int MEFUpdating; // 1 for yes 0 for no
+@property NSMutableString * OldHostName;
 @end

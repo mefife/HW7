@@ -9,9 +9,7 @@
 #import "PasswordEnter.h"
 
 @interface PasswordEnter ()
-@property (weak, nonatomic) IBOutlet UITextField *keyChainHost;
-@property (weak, nonatomic) IBOutlet UITextField *keychainUser;
-@property (weak, nonatomic) IBOutlet UITextField *keychainPassword;
+
 
 
 @end
@@ -24,7 +22,7 @@
     self.navigationController.title = @"SUP";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(savePassword:)];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancelPassword:)];
-                                              //initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(savePassword:)];
+    
     //NSLog(@"Hello");
 }
 
@@ -33,12 +31,73 @@
         return;
     }
     
-    NSDictionary *attributes = @{ (__bridge id)kSecClass : (__bridge id)kSecClassInternetPassword,
-                                 (__bridge id)kSecAttrAccount : self.keychainUser.text,
-                                  (__bridge id)kSecAttrApplicationTag : self.keyChainHost.text,
-                                 (__bridge id)kSecValueData : [self.keychainPassword.text dataUsingEncoding:NSUTF8StringEncoding] };
     
-    SecItemAdd((__bridge CFDictionaryRef)attributes, NULL);
+    if (self.MEFUpdating == 0) {
+        NSDictionary *attributes = @{ (__bridge id)kSecClass : (__bridge id)kSecClassInternetPassword,
+                                      (__bridge id)kSecAttrAccount : self.keychainUser.text,
+                                      (__bridge id)kSecAttrServer : self.keyChainHost.text,
+                                      (__bridge id)kSecValueData : [self.keychainPassword.text dataUsingEncoding:NSUTF8StringEncoding] };
+        
+        OSStatus status = SecItemAdd((__bridge CFDictionaryRef)attributes, NULL);
+        if (status == 0) {
+            NSLog(@"Here is the updating mode %d:", self.MEFUpdating);
+            [self dismissViewControllerAnimated:YES completion:nil];
+            
+        }
+    }
+    
+    if (self.MEFUpdating == 1) {
+        
+        
+        if (self.OldHostName == self.keyChainHost.text) {
+            NSDictionary* updateQuery = @{ (__bridge id)kSecClass : (__bridge id)kSecClassInternetPassword,
+                                           (__bridge id)kSecAttrServer : self.keyChainHost.text };
+            
+            NSDictionary* updatethings = @{ (__bridge id)kSecAttrAccount : self.keychainUser.text,
+                                            (__bridge id)kSecValueData : [self.keychainPassword.text dataUsingEncoding:NSUTF8StringEncoding] };
+            
+            OSStatus helpstatus = SecItemUpdate((__bridge CFDictionaryRef) updateQuery, (__bridge CFDictionaryRef) updatethings);
+            if (helpstatus == 0) {
+                NSLog(@"Here is the updating mode %d:", self.MEFUpdating);
+                [self dismissViewControllerAnimated:YES completion:nil];
+                
+            }
+        } else {
+            NSDictionary* deleteQuery = @{ (__bridge id)kSecClass : (__bridge id)kSecClassInternetPassword,
+                                           (__bridge id)kSecAttrServer : self.OldHostName };
+            
+            OSStatus delStatus = SecItemDelete((__bridge CFDictionaryRef) deleteQuery);
+            
+            NSDictionary *attributes = @{ (__bridge id)kSecClass : (__bridge id)kSecClassInternetPassword,
+                                          (__bridge id)kSecAttrAccount : self.keychainUser.text,
+                                          (__bridge id)kSecAttrServer : self.keyChainHost.text,
+                                          (__bridge id)kSecValueData : [self.keychainPassword.text dataUsingEncoding:NSUTF8StringEncoding] };
+            
+            OSStatus status = SecItemAdd((__bridge CFDictionaryRef)attributes, NULL);
+            if (status == 0 && delStatus == 0) {
+                NSLog(@"Here is the updating mode %d:", self.MEFUpdating);
+                [self dismissViewControllerAnimated:YES completion:nil];
+                
+            }
+            
+            
+            
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    }
+    
+    
+    //NSLog(@"%d",(int)status);
+    
+    
     
     //NSDictionary * tempDictionary = @{@"Host" : self.keyChainHost.text , @"User" : self.keychainUser.text, @"Password" : self.keychainPassword.text};
     

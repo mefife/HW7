@@ -21,16 +21,22 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addPassword:)];
     self.enterView = [[PasswordEnter alloc] init];
     self.enterNavigation = [[UINavigationController alloc] initWithRootViewController:self.enterView];
-    //self.enterNavigation.title = @"SUP";
-    //self.enterNavigation.navigationItem.rightBarButtonItem = self.editButtonItem;
-    //self.enterNavigation.navigationItem.leftBarButtonItem = self.
-    
-    //UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController: mvc];
-
 }
 
 -(void)addPassword:(id)sender; {
-    [self.navigationController presentViewController:self.enterNavigation animated:YES completion:nil];
+    self.enterView.keychainPassword.text = @"";
+    self.enterView.keyChainHost.text = @"";
+    self.enterView.keychainUser.text = @"";
+    [self.navigationController presentViewController:self.enterNavigation animated:YES completion:^{
+        self.enterView.MEFUpdating = 0;
+        
+    }];
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    [self.tableView reloadData];
+    NSLog(@"I appeared");
+    
 }
 
 #pragma mark - Table view data source
@@ -42,7 +48,17 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return 5; // Change this with keychain
+    NSDictionary *query = @{(__bridge id)kSecClass : (__bridge id)kSecClassInternetPassword,
+                          (__bridge id)kSecMatchLimit : (__bridge id) kSecMatchLimitAll,
+                          (__bridge id)kSecReturnAttributes : (__bridge id)kCFBooleanTrue};
+    
+    CFArrayRef result = NULL;
+    SecItemCopyMatching((__bridge CFDictionaryRef) query, (CFTypeRef *)&result);
+    
+    NSArray * resultData = (__bridge NSArray *)result;
+    //NSLog(@"Here is the status: %d",(int)status);
+    //NSLog(@" Here is one result: %@",resultData[0]);
+    return resultData.count;
 }
 
 
@@ -50,26 +66,22 @@
     
  static NSString *CellIdentifier = @"Cells";
  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    cell.textLabel.text = @"hi";
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
-    // Configure the cell...
-//    NSDictionary *query @{ (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
-//                           (__bridge id)kSecAttrAccount : self,
-//                           (__bridge id)kSecReturnData : (__bridge id)kCFBooleanTrue };
-//    
-//    CFTypeRef result = NULL;
-//    
-//    SecItemCopyMatching((__bridge CFDictionaryRef)query, &result);
-//    
-//    if (result !=NULL) {
-//        NSData * resultData = (__bridge NSData *)result;
-//        cell.textLabel.text = [[NSString alloc] initWithData:resultData encoding:NSUTF8StringEncoding];
-//        }
     
-
-
+    NSDictionary *query = @{(__bridge id)kSecClass : (__bridge id)kSecClassInternetPassword,
+                            (__bridge id)kSecMatchLimit : (__bridge id) kSecMatchLimitAll,
+                            (__bridge id)kSecReturnAttributes : (__bridge id)kCFBooleanTrue};
     
+    CFArrayRef result = NULL;
+    OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef) query, (CFTypeRef *)&result);
+    
+    NSArray * resultData = (__bridge NSArray *)result;
+    
+    if (status == 0 ) {
+        cell.textLabel.text = [resultData[indexPath.row] valueForKey:@"srvr"];
+        cell.detailTextLabel.text = [resultData[indexPath.row] valueForKey:@"acct"];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
     return cell;
 }
 
@@ -77,7 +89,37 @@
 -(void)tableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"My Cell has been tapped");
-    [self.navigationController presentViewController:self.enterNavigation animated:YES completion:nil];
+    
+    NSDictionary *query = @{(__bridge id)kSecClass : (__bridge id)kSecClassInternetPassword,
+                            (__bridge id)kSecMatchLimit : (__bridge id) kSecMatchLimitAll,
+                            (__bridge id)kSecReturnAttributes : (__bridge id)kCFBooleanTrue};
+    
+    CFArrayRef result = NULL;
+    OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef) query, (CFTypeRef *)&result);
+    
+    NSArray * resultData = (__bridge NSArray *)result;
+    
+    NSDictionary *passquery = @{(__bridge id)kSecClass : (__bridge id)kSecClassInternetPassword,
+                                (__bridge id)kSecAttrServer : [resultData[indexPath.row] valueForKey:@"srvr"],
+                                (__bridge id)kSecReturnData : (__bridge id)kCFBooleanTrue};
+    
+    CFTypeRef passresult = NULL;
+    
+    OSStatus statuspass = SecItemCopyMatching((__bridge CFDictionaryRef) passquery, (CFTypeRef *)&passresult);
+    
+    NSData *passData = (__bridge NSData *)passresult;
+    
+    
+    if (statuspass == 0 && status == 0) {
+        [self.navigationController presentViewController:self.enterNavigation animated:YES completion:^{
+            self.enterView.keyChainHost.text = [resultData[indexPath.row] valueForKey:@"srvr"];
+            self.enterView.keychainUser.text = [resultData[indexPath.row] valueForKey:@"acct"];
+            self.enterView.keychainPassword.text = [[NSString alloc] initWithData:passData encoding:NSUTF8StringEncoding];
+            self.enterView.MEFUpdating = 1;
+            self.enterView.OldHostName = [resultData[indexPath.row] valueForKey:@"srvr"];
+        }];
+    }
+    
     
 }
 
